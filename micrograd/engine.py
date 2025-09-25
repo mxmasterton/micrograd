@@ -67,13 +67,13 @@ class Value:
         out = Value(x, (self,))
 
         def _backward():
-            self.grad += out.grad / x
+            self.grad += out.grad / self.data
         out._backward = _backward
 
         return out
 
     @staticmethod
-    def softmax(logits):
+    def softmax(*logits):
         counts = tuple(logit.exp() for logit in logits)
         total = sum(counts)
         return tuple(count / total for count in counts)
